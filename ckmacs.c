@@ -6,6 +6,7 @@ int main()
   enable_raw_mode();
 
   while (1) {
+    refresh_screen();
     process_input();
   }
 
