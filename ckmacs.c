@@ -4,6 +4,7 @@
 int main()
 {
   enable_raw_mode();
+  initialize_window();
 
   while (1) {
     refresh_screen();
