@@ -2,9 +2,9 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <errno.h>
-#include <termios.h>
+#include <curses.h>
 
-struct termios terminal_attr;
+WINDOW *win;
 
 void die(const char *s)
 {
@@ -12,25 +12,27 @@ void die(const char *s)
   exit(1);
 }
 
-void disable_raw_mode()
+void free_window()
 {
-  if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &terminal_attr) == -1)
-    die("tcsetattr");
+  noraw();
+  echo();
+  endwin();
 }
 
-void enable_raw_mode()
+void initialize_window()
 {
-  if (tcgetattr(STDIN_FILENO, &terminal_attr) == -1)
-    die("tcgetattr");
-  atexit(disable_raw_mode);
+  initscr();
+  if (raw() == -1) die("raw");
+  if (noecho() == -1) die("noecho");
 
-  struct termios raw = terminal_attr;
-  raw.c_iflag &= ~(ICRNL | IXON);
-  raw.c_oflag &= ~(OPOST);
-  raw.c_lflag &= ~(ECHO | ICANON | ISIG | IEXTEN);
-    
-  if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw) == -1)
-    die("tcsetattr");
+  win = newwin(0,0,0,0);
+  
+  atexit(free_window);
+}
+
+void refresh_screen()
+{
+  wrefresh(win);
 }
 
 char read_key()

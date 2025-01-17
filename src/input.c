@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "../include/ckmacs.h"
+#include "../include/term.h"
 
 void process_input()
 {
