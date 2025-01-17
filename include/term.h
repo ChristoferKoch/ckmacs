@@ -1,3 +1,5 @@
+extern WINDOW *win;
+
 void die(const char *);
 char read_key();
 void refresh_screen();
