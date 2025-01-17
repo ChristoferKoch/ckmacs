@@ -1,4 +1,5 @@
-#include "include/ckmacs.h"
+#include "include/term.h"
+#include "include/input.h"
 
 int main()
 {
