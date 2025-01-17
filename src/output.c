@@ -11,5 +11,5 @@ void initialize_window()
 
 void refresh_screen()
 {
-  write(STDOUT_FILENO, "\x1b[2J", 4);
+  wrefresh(win);
 }
